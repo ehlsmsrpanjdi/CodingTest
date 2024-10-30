@@ -1,52 +1,48 @@
 #include <iostream>
 #include <stack>
-#include <string>
+
 using namespace std;
 
 int main() {
+
     string str;
-    int count;
-    cin >> str >> count;
+    int N;
+    char query;
+    stack<char> s;
 
-    stack<char> left, right;
-    for (char ch : str) {
-        left.push(ch);
-    }
+    cin >> str;
+    cin >> N;
 
-    while (count--) {
-        char cmd;
-        cin >> cmd;
-        if (cmd == 'L') {
-            if (!left.empty()) {
-                right.push(left.top());
-                left.pop();
-            }
-        }
-        else if (cmd == 'D') {
-            if (!right.empty()) {
-                left.push(right.top());
-                right.pop();
-            }
-        }
-        else if (cmd == 'B') {
-            if (!left.empty()) {
-                left.pop();
-            }
-        }
-        else if (cmd == 'P') {
-            char ch;
-            cin >> ch;
-            left.push(ch);
+    while(N--) {
+        cin >> query;
+        switch(query) {
+            case 'P':
+                char c;
+                cin >> c;
+                str.push_back(c);
+                break;
+            case 'L':
+                if(!str.empty()) {
+                    s.push(str.back());
+                    str.pop_back();
+                }
+                break;
+            case 'D':
+                if(!s.empty()) {
+                    str.push_back(s.top());
+                    s.pop();
+                }
+                break;
+            case 'B':
+                if(!str.empty())
+                    str.pop_back();
         }
     }
+    while(!s.empty()) {
+        str.push_back(s.top());
+        s.pop();
+    }
+    cout << str;
 
-    while (!left.empty()) {
-        right.push(left.top());
-        left.pop();
-    }
-    while (!right.empty()) {
-        cout << right.top();
-        right.pop();
-    }
     return 0;
 }
