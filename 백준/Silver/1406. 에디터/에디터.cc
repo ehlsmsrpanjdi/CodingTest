@@ -1,66 +1,52 @@
-#include <string>
-#include <list>
-#include <algorithm>
 #include <iostream>
+#include <stack>
+#include <string>
 using namespace std;
 
-//int main() {
-//	std::list<int> li;
-//	li.push_back(1);
-//	li.push_back(2);
-//	li.push_back(3);
-//	li.push_back(4);
-//	std::list<int>::iterator iter =  li.begin();
-//	iter = li.insert(iter,5);
-//	for (int i : li) {
-//		std::cout << i << "\n";
-//	}
-//	std::cout << *iter;
-//}
-
 int main() {
-	std::list<char> llist;
-	std::list<char>::iterator iter;
-	std::string str;
-	char ch;
-	std::cin >> str;
-	for (char c : str) {
-		llist.push_back(c);
-	}
-	iter = llist.end();
-	int count = 0;
-	cin >> count;
-	while (count--) {
-		cin >> ch;
-		if (ch == 'L') {
-			if (iter == llist.begin()) {
-				continue;
-			}
-			--iter;
-		}
-		else if (ch == 'D') {
-			if (iter == llist.end()) {
-				continue;
-			}
-			++iter;
-		}
-		else if (ch == 'B') {
-			if (iter == llist.begin()) {
-				continue;
-			}
-			--iter;
-			iter = llist.erase(iter);
-		}
-		else if (ch == 'P') {
-			cin >> ch;
-			if (iter == llist.begin()) {
-				llist.insert(iter, ch);
-				continue;
-			}
-			llist.insert(iter, ch);
-		}
-	}
-	for (char c : llist) {
-		std::cout << c;
-	}
+    string str;
+    int count;
+    cin >> str >> count;
+
+    stack<char> left, right;
+    for (char ch : str) {
+        left.push(ch);
+    }
+
+    while (count--) {
+        char cmd;
+        cin >> cmd;
+        if (cmd == 'L') {
+            if (!left.empty()) {
+                right.push(left.top());
+                left.pop();
+            }
+        }
+        else if (cmd == 'D') {
+            if (!right.empty()) {
+                left.push(right.top());
+                right.pop();
+            }
+        }
+        else if (cmd == 'B') {
+            if (!left.empty()) {
+                left.pop();
+            }
+        }
+        else if (cmd == 'P') {
+            char ch;
+            cin >> ch;
+            left.push(ch);
+        }
+    }
+
+    while (!left.empty()) {
+        right.push(left.top());
+        left.pop();
+    }
+    while (!right.empty()) {
+        cout << right.top();
+        right.pop();
+    }
+    return 0;
 }
