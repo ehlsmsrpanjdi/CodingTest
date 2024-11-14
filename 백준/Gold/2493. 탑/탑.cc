@@ -1,24 +1,37 @@
+#include <set>
 #include <string>
 #include <vector>
-#include <stack>
 #include <iostream>
+#include <stack>
+using namespace std;
+
+
+
 int main() {
-	int Count = 0;
-	int num = 0;
-	int index = 0;
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	int index, num;
+	cin >> index;
+	int value = 0;
 	std::stack<std::pair<int, int>> st;
-	st.push(std::make_pair(100000001, 0));
 	std::vector<int> vec;
-	std::cin >> Count;
-	while (Count--) {
-		std::cin >> num;
-		while (st.top().first < num) {
+	std::pair<int, int> pa;
+	st.push(make_pair(100000001, value));
+	while (index--) {
+		++value;
+		cin >> num;
+		pa = st.top();
+		while (pa.first < num) {
 			st.pop();
+			pa = st.top();
 		}
-		vec.push_back(st.top().second);
-		st.push(std::make_pair(num, ++index));
+		vec.push_back(pa.second);
+		st.push(make_pair(num, value));
 	}
+
 	for (int i : vec) {
-		std::cout << i << ' ';
+		std::cout << i << '\n';
 	}
+
+	return 0;
 }
