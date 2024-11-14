@@ -1,63 +1,58 @@
+#include <iostream>
 #include <string>
-#include <vector>
+#include <regex>
 #include <queue>
 #include <stack>
 using namespace std;
 
-int result = 0;
+int bfs(vector<int>& numbers, int target) {
+	int numsize = numbers.size();
+	std::queue<std::pair<int, int>> qu;
+	qu.push(make_pair(numbers[0], 0));
+	qu.push(make_pair(-numbers[0], 0));
+	std::pair<int, int> pqu;
+	int iqu = 0;
+	while (!qu.empty()) {
+		pqu = qu.front();
+		qu.pop();
+		if (pqu.second + 1 < numsize) {
+			qu.push(make_pair(pqu.first + numbers[pqu.second + 1], pqu.second + 1));
+			qu.push(make_pair(pqu.first - numbers[pqu.second + 1], pqu.second + 1));
+		}
+		else {
+			if (target == pqu.first) {
+				++iqu;
+			}
+		}
+	}
+	return iqu;
+}
 
-void dfs(vector<int>& _vec, int _ref, int value, int target) {
-
-    if (_vec.size() != _ref) {
-        dfs(_vec, _ref + 1, value + _vec[_ref], target);
-        dfs(_vec, _ref + 1, value - _vec[_ref], target);
-    }
-
-    if (target == value && _vec.size() == _ref) {
-        ++result;
-    }
-
+int dfs(vector<int>& numbers, int target) {
+	int numsize = numbers.size();
+	std::stack<std::pair<int, int>> st;
+	st.push(make_pair(numbers[0], 0));
+	st.push(make_pair(-numbers[0], 0));
+	std::pair<int, int> pst;
+	int ist = 0;
+	while (!st.empty()) {
+		pst = st.top();
+		st.pop();
+		if (pst.second + 1 < numsize) {
+			st.push(make_pair(pst.first + numbers[pst.second + 1], pst.second + 1));
+			st.push(make_pair(pst.first - numbers[pst.second + 1], pst.second + 1));
+		}
+		else {
+			if (target == pst.first) {
+				++ist;
+			}
+		}
+	}
+	return ist;
 }
 
 
 int solution(vector<int> numbers, int target) {
-    result = 0;
-    int dfsresult = 0;
-    std::queue<std::pair<int, int>> qu;
-    std::stack<std::pair<int, int>> st;
-    std::pair<int, int> pa;
-    qu.push(std::make_pair(numbers[0], 0));
-    qu.push(std::make_pair(-numbers[0], 0));
 
-    st.push(std::make_pair(numbers[0], 0));
-    st.push(std::make_pair(-numbers[0], 0));
-
-    //while(!qu.empty()){
-    //    pa = qu.front();
-    //    qu.pop();
-    //    if (pa.second == numbers.size() - 1) {
-    //        if (pa.first == target) {
-    //            ++result;
-    //        }
-    //        continue;
-    //    }
-    //    qu.push(std::make_pair(numbers[pa.second + 1] + pa.first, pa.second + 1));
-    //    qu.push(std::make_pair(- numbers[pa.second + 1] + pa.first, pa.second + 1));
-    //}
-
-    while (!st.empty()) {
-        pa = st.top();
-        st.pop();
-        if (pa.second == numbers.size() - 1) {
-            if (pa.first == target) {
-                ++result;
-            }
-            continue;
-        }
-        st.push(std::make_pair(numbers[pa.second + 1] + pa.first, pa.second + 1));
-        st.push(std::make_pair(-numbers[pa.second + 1] + pa.first, pa.second + 1));
-    }
-
-
-    return result;
+	return bfs(numbers, target);
 }
