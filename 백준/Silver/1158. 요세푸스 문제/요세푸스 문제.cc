@@ -1,48 +1,52 @@
-#include <string>
-#include <list>
-#include <algorithm>
-#include <iostream>
-#include <vector>
-using namespace std;
-
-
-//int main() {
-//	std::cout << ' ,';
-//}
+#include "iostream"
+#include "list"
+#include "algorithm"
 
 int main() {
-	//ios_base::sync_with_stdio(0);
-	//cin.tie(0); cout.tie(0);
 
-	std::list<int> llist;
-	std::vector<int> solve;
-	int num, count;
-	cin >> num;
-	for (int i = 1; i < num + 1; ++i) {
-		llist.push_back(i);
+	int N, M;
+	std::cin >> N >> M;
+	std::list<int> li;
+
+	for (int i = 1; i <= N; ++i) {
+		li.push_back(i);
 	}
-	std::list<int>::iterator iter = llist.begin();
-	cin >> count;
+	int count = M;
+	std::list<int>::iterator iter = li.begin();
+	
+	for (int i = 0; i < count - 1; ++i) {
+		++iter;
+		if (iter == li.end()) {
+			iter = li.begin();
+		}
+	}
 
-	while (llist.size()) {
+	if (li.size() == 1) {
+		std::cout << '<' << *iter << '>';
+		return 0;
+	}
+
+	std::cout << '<' << *iter << ", ";
+	iter = li.erase(iter);
+	if (iter == li.end()) {
+		iter = li.begin();
+	}
+	while (li.size() != 0) {
 		for (int i = 0; i < count - 1; ++i) {
 			++iter;
-			if (iter == llist.end()) {
-				iter = llist.begin();
+			if (iter == li.end()) {
+				iter = li.begin();
 			}
 		}
-		solve.push_back(*iter);
-		iter = llist.erase(iter);
-		if (iter == llist.end()) {
-			iter = llist.begin();
+		if (li.size() == 1) {
+			std::cout << *iter << '>';
+			return 0;
+		}
+
+		std::cout << *iter << ", ";
+		iter = li.erase(iter);
+		if (iter == li.end()) {
+			iter = li.begin();
 		}
 	}
-	std::cout << '<';
-	int i = 0;
-	for (; i < solve.size() - 1; ++i) {
-		std::cout << solve[i];
-		std::cout << ", ";
-	}
-	std::cout << solve[i] << '>';
-	return 0;
 }
