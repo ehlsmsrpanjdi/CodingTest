@@ -5,25 +5,21 @@
 #include "map"
 #include "algorithm"
 using namespace std;
+
+int a[500005];
 int n;
-std::map<int, int> ma;
 
-
-int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
-
-	std::cin >> n;
-	int value = 0;
-	for (int i = 0; i < n; i++) {
-		cin >> value;
-		++ma[value];
-	}
-	int m;
-	cin >> m;
-	while (m--) {
-		cin >> value;
-		std::cout << ma[value] << ' ';
-	}
-
+int main(void) {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> n;
+    for (int i = 0; i < n; i++) cin >> a[i];
+    sort(a, a + n);
+    int m;
+    cin >> m;
+    while (m--) {
+        int t;
+        cin >> t;
+        cout << upper_bound(a, a + n, t) - lower_bound(a, a + n, t) << '\n';
+    }
 }
