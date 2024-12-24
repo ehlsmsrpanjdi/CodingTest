@@ -13,22 +13,16 @@ int mn = 0x7fffffff;
 
 
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
-	cin >> n >> m;
-	for (int i = 0; i < n; i++) cin >> a[i];
-	sort(a, a + n);
-	int st = 0;
-	int en = 0;
-	for (st = 0; st < n; ++st, en = st) {
-		while (a[en] - a[st] < m && en < n - 1) {
-			++en;
-		}
-		if (mn > a[en] - a[st] && a[en] - a[st] >= m) {
-			mn = a[en] - a[st];
-		}
-	}
-
-
-	cout << mn;
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> n >> m;
+    for (int i = 0; i < n; i++) cin >> a[i];
+    sort(a, a + n);
+    int en = 0;
+    for (int st = 0; st < n; st++) {
+        while (en < n && a[en] - a[st] < m) en++;
+        if (en == n) break; // en이 범위를 벗어날 시 종료
+        mn = min(mn, a[en] - a[st]);
+    }
+    cout << mn;
 }
