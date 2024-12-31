@@ -1,32 +1,24 @@
-#include<iostream>
+//ios::sync_with_stdio(0);
+//cin.tie(0);
+#include "iostream"
+#include "vector"
+#include "list"
+#include "map"
 using namespace std;
 
-int compare(int i, int j);
-
 int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
 	int N;
-	cin >> N;
-	int DP[10*10*10*10*10*10] = { 0,0,1,1, };
-
-	for (int i = 4; i <= N; ++i) {
-		if (i % 3 == 0 && i % 2 == 0) {
-			DP[i] = 1 + compare(compare(DP[i / 3], DP[i / 2]), DP[i - 1]);
-		}
-		else if (i % 3 != 0 && i % 2 == 0) {
-			DP[i] = 1 + compare(DP[i / 2], DP[i - 1]);
-		}
-		else if (i % 3 == 0 && i % 2 != 0) {
-			DP[i] = 1 + compare(DP[i / 3], DP[i - 1]);
-		}
-		else if (i % 3 != 0 && i % 2 != 0) {
-			DP[i] = 1 + DP[i - 1];
-		}
+	std::cin >> N;
+	int* ma = new int[1000005];
+	ma[1] = 0;
+	for (int i = 2; i <= N; ++i) {
+		ma[i] = ma[i - 1] + 1;
+		if (i % 2 == 0) ma[i] = min(ma[i], ma[i / 2] + 1);
+		if (i % 3 == 0) ma[i] = min(ma[i], ma[i / 3] + 1);
 	}
+	std::cout << ma[N];
 
-	cout << DP[N] << endl;
-}
-
-int compare(int i, int j) {
-	if (i <= j) return i;
-	return j;
+	return 0;
 }
