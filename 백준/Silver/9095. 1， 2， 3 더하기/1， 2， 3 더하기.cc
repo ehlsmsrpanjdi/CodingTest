@@ -1,31 +1,22 @@
-//ios::sync_with_stdio(0);
-//cin.tie(0);
 #include "iostream"
-#include "vector"
-#include "list"
+#include "cmath"
 #include "map"
 using namespace std;
 
-int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
-	int N, Count;
-	std::cin >> Count;
-	int* ma = new int[1000005];
-	ma[1] = 1;
-	ma[2] = 2;
-	ma[3] = 4;//  3, 1 1 1 , 1 2, 2 1
+int d[1000005];
+int main(void) {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
+    d[1] = 1; d[2] = 2; d[3] = 4;
+    for (int i = 4; i < 11; i++)
+        d[i] = d[i - 1] + d[i - 2] + d[i - 3];
 
-	while (Count--) {
-		std::cin >> N;
-		for (int i = 4; i <= N; ++i) {
-			ma[i] = ma[i - 1] + ma[i - 2] + ma[i - 3];
-		}
-		std::cout << ma[N] << '\n';
-	}
-
-
-
-	return 0;
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        cout << d[n] << '\n';
+    }
 }
