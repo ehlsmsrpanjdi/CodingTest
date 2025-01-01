@@ -1,28 +1,32 @@
-//ios::sync_with_stdio(0);
-//cin.tie(0);
 #include "iostream"
-#include "vector"
-#include "list"
+#include "cmath"
 #include "map"
-#include "queue"
+#include "vector"
 #include "algorithm"
 using namespace std;
 int a[100005];
-int n;
+int n, m;
 
-
-int main() {
+int main(void) {
 	ios::sync_with_stdio(0);
 	cin.tie(0);
-	std::cin >> n;
-	for (int i = 0; i < n; i++) cin >> a[i];
-	sort(a, a + n);
-	int m;
-	cin >> m;
-	while (m--) {
-		int t;
-		cin >> t;
-		cout << binary_search(a, a + n, t) << '\n';
+	cin >> n;
+	std::vector<int> vec;
+	for (int i = 0; i < n; i++) {
+		int value;
+		std::cin >> value;
+		vec.emplace_back(value);
 	}
+	sort(vec.begin(),vec.end());
 
+	cin >> n;
+	for (int i = 0; i < n; ++i) {
+		std::cin >> m;
+		if(!(std::binary_search(vec.begin(), vec.end(), m))){
+			std::cout << "0\n";
+		}
+		else {
+			std::cout << "1\n";
+		}
+	}
 }
