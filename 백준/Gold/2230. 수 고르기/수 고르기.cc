@@ -1,16 +1,12 @@
-//ios::sync_with_stdio(0);
-//cin.tie(0);
-#include "iostream"
-#include "cmath"
-#include "map"
-#include "algorithm"
-#include "vector"
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
 using namespace std;
 
 int n, m;
 int a[100005];
 int mn = 0x7fffffff;
-
 
 int main() {
     ios::sync_with_stdio(0);
