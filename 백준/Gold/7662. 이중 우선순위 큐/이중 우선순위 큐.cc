@@ -1,58 +1,34 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <map>
-#include <queue>
-#include <unordered_map>
-#include <deque>
-#include <set>
+#include <bits/stdc++.h>
 using namespace std;
 
-int n;
-int m;
-char Select;
-int num;
-int main(void) {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
-	multiset<int> Se;
-	std::cin >> n;
-	while (n--) {
-		std::cin >> m;
-		while (m--) {
-			std::cin >> Select >> num;
-			switch (Select)
-			{
-			case 'I':
-			{
-				Se.insert(num);
-			}
-			break;
-			case 'D':
-			{
-				if (Se.empty() == true || Se.size() == 1) {
-					Se.clear();
-					break;
-				}
-				if (num == -1) {
-					Se.erase(Se.begin());
-				}
-				else {
-					Se.erase(std::prev(Se.end()));
-				}
-			}
-			break;
-			default:
-				break;
-			}
-		}
-		if (Se.empty() == true) {
-			std::cout << "EMPTY\n";
-		}
-		else {
-			std::cout << *std::prev(Se.end()) << " " << *Se.begin() << '\n';
-		}
-		Se.clear();
-	}
+int main(void){
+  ios::sync_with_stdio(0);
+  cin.tie(0);
+  int t;
+  cin >> t;
+  while(t--){
+    int k;
+    cin >> k;
+    multiset<int> ms;
+    while(k--){
+      char com;
+      cin >> com;
+      if(com == 'D'){
+        int q;
+        cin >> q;
+        if(ms.empty()) continue;
+        if(q == 1) ms.erase(prev(ms.end()));
+        else ms.erase(ms.begin());
+      }
+      else{
+        int q;
+        cin >> q;
+        ms.insert(q);
+      }
+    }
+    if(ms.empty()) cout << "EMPTY\n";
+    else{
+      cout << *prev(ms.end()) << ' ' << *ms.begin() << '\n';
+    }
+  }
 }
