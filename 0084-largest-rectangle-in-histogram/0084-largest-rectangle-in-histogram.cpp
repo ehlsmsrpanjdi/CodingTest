@@ -1,33 +1,27 @@
+
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& heights) {
-        int size = heights.size();
+	int largestRectangleArea(vector<int>& heights) {
 
-        std::vector<int> vec;
-        int LongHeight = *std::max_element(heights.begin(), heights.end());
-        int maxsize = size;
-        std::vector<int>::iterator start = heights.begin();
-        std::vector<int>::iterator current = start + size;
-        int test =*std::min_element(start, current);
-        while (size) {
-            int maxvalue = 0;
-            for (start = heights.begin(), current = start + size; ;++current, ++start) {
-                if (test * maxsize > LongHeight * size) {
-                    break;
-                }
+		stack<int> st;
+		int maxsize = 0;
+		for (int i = 0; i <= heights.size(); ++i) {
+
+			int h = i == heights.size() ? 0 : heights[i];
+
+			while (!st.empty() && h < heights[st.top()]) {
+				int height = heights[st.top()];
+				st.pop();
+
+				int width = st.empty() ? i : i - st.top() - 1;
+
+				maxsize = std::max(maxsize, height * width);
+			}
 
 
-                int width = *std::min_element(start, current);
-                if (maxvalue < width * size) {
-                    maxvalue = width * size;
-                }
-                if (current == heights.end()) {
-                    break;
-                }
-            }
-            vec.push_back(maxvalue);
-            --size;
-        }
-        return *std::max_element(vec.begin(), vec.end());
-    }
+			st.push(i);
+		}
+
+		return maxsize;
+	}
 };
