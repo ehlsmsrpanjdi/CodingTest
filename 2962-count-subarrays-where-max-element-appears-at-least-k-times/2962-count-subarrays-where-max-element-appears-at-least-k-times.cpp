@@ -1,27 +1,33 @@
 class Solution {
 public:
 	long long countSubarrays(vector<int>& nums, int k) {
-		int n = nums.size();
-		int freq = 0;
-		int maxvalue = *std::max_element(nums.begin(), nums.end());
-		long long count = 0;
 		int left = 0;
-		for (int right = 0; right < n; ++right) {
-			if (nums[right] == maxvalue) {
-				freq++;
+		int right = 0;
+
+		int n = nums.size();
+
+		int maxValue = *std::max_element(nums.begin(), nums.end());
+
+		int frequency = 0;
+
+		long long count = 0;
+
+		for (; right < n; right++)
+		{
+			if (nums[right] == maxValue) {
+				frequency++;
 			}
 
-			while (freq >= k) {
+			while (frequency >= k) {
 				count += n - right;
-
-				if (nums[left] == maxvalue) {
-					freq--;
+				if (nums[left] == maxValue) {
+					frequency--;
 				}
 				++left;
 			}
 		}
 
-
 		return count;
+
 	}
 };
