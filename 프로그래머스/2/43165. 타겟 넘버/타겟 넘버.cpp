@@ -5,34 +5,26 @@
 #include <queue>
 using namespace std;
 
+std::queue<int> st;
+int answer = 0;
 
+void DFS(int _total, int _size, int _target, std::vector<int>& vec, int _index) {
+
+	if (_size == _index + 1) {
+		if (_total == _target) {
+			++answer;
+		}
+		return;
+	}
+	DFS(_total - vec[_index + 1], _size, _target, vec, _index + 1);
+	DFS(_total + vec[_index + 1], _size, _target, vec, _index + 1);
+}
 
 int solution(vector<int> numbers, int target) {
 
-	int result = 0;
-	std::pair<int, int> pa;
-	int numsize = numbers.size();
-	std::queue<std::pair<int, int>> qu;
-	int n = 0;
-	//지금 총합, 지금 몇 번째까지 더했냐
-	qu.push(std::make_pair(n, numbers[n]));
-	qu.push(std::make_pair(n, -numbers[n]));
+	int total = 0;
+	DFS(numbers[0], numbers.size(), target, numbers, 0);
+	DFS(-numbers[0], numbers.size(), target, numbers, 0);
 
-	while (!qu.empty()) {
-		pa = qu.front();
-		qu.pop();
-		n = pa.first;
-		if (n == numsize - 1) {
-			if (pa.second == target) {
-				++result;
-			}
-			continue;
-		}
-		qu.push(std::make_pair(n + 1, pa.second + numbers[n + 1]));  // 1, 1  (1  -1)
-		qu.push(std::make_pair(n + 1, pa.second - numbers[n + 1]));
-		// 1 1  1 -1  -1 1   -1 -1  2 0 0 -2
-	}
-
-	return result;
+	return answer;
 }
-
