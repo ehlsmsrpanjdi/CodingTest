@@ -1,32 +1,38 @@
 std::vector<std::vector<int>> answer;
-int targetValue = 0;
 
-void BackTracking(std::vector<int>& current, const std::vector<int>& origin, int _total, int _Start) {
+int VecSize;
+int TargetValue;
 
-	if (_total > targetValue) {
+void BackTracking(std::vector<int>& vec, std::vector<int>& nums, int TotalValue, int Start) {
+
+	if (TotalValue > TargetValue) {
 		return;
 	}
-
-	if (_total == targetValue) {
-		answer.push_back(current);
+	else if (TotalValue == TargetValue) {
+		answer.push_back(vec);
 	}
 
-	for (int i = _Start; i < origin.size(); ++i) {
-		current.push_back(origin[i]);
-		_total += origin[i];
-		BackTracking(current, origin, _total, i);
-		_total -= origin[i];
-		current.pop_back();
+	for (int i = Start; i < VecSize; ++i) {
+		vec.push_back(nums[i]);
+		TotalValue += nums[i];
+		BackTracking(vec, nums, TotalValue, i);
+		vec.pop_back();
+		TotalValue -= nums[i];
 	}
+
 }
+
 
 class Solution {
 public:
 	vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-		targetValue = target;
-		std::vector<int> vec;
+
+		TargetValue = target;
+		VecSize = candidates.size();
 		answer.clear();
+		std::vector<int> vec;
 		BackTracking(vec, candidates, 0, 0);
+
 		return answer;
 	}
 };
