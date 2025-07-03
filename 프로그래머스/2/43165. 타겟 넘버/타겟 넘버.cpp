@@ -1,30 +1,34 @@
-#include <iostream>
+#include <string>
 #include <vector>
-#include <algorithm>
-#include <stack>
+#include <iostream>
+#include <unordered_map>
+#include <unordered_set>
 #include <queue>
+#include <cstring>
 using namespace std;
 
-std::queue<int> st;
-int answer = 0;
-
-void DFS(int _total, int _size, int _target, std::vector<int>& vec, int _index) {
-
-	if (_size == _index + 1) {
-		if (_total == _target) {
-			++answer;
-		}
-		return;
-	}
-	DFS(_total - vec[_index + 1], _size, _target, vec, _index + 1);
-	DFS(_total + vec[_index + 1], _size, _target, vec, _index + 1);
-}
-
 int solution(vector<int> numbers, int target) {
+	int answer = 0;
+	std::queue<std::pair<int, int>> qu;
+	int numberSize = numbers.size();
+	qu.push(std::make_pair(numbers[0], 0));
+	qu.push(std::make_pair(-numbers[0], 0));
 
-	int total = 0;
-	DFS(numbers[0], numbers.size(), target, numbers, 0);
-	DFS(-numbers[0], numbers.size(), target, numbers, 0);
+	while (!qu.empty()) {
+		std::pair<int,int> pa =  qu.front();
+
+		qu.pop();
+
+		if (pa.second < numberSize - 1) {
+			qu.push(std::make_pair(pa.first + numbers[pa.second + 1], pa.second + 1));
+			qu.push(std::make_pair(pa.first - numbers[pa.second + 1], pa.second + 1));
+		}
+		else if (pa.second == numberSize - 1) {
+			if (pa.first == target) {
+				++answer;
+			}
+		}
+	}
 
 	return answer;
 }
