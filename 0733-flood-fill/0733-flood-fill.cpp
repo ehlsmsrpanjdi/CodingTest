@@ -1,4 +1,3 @@
-
 int dx[4] = { 1,0,-1,0 };
 int dy[4] = { 0,-1,0,1 };
 
@@ -7,6 +6,7 @@ public:
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
         int startcolor = image[sr][sc];
         image[sr][sc] = color;
+
         std::queue<std::pair<int, int>> qu;
 
         qu.push(std::make_pair(sr, sc));
