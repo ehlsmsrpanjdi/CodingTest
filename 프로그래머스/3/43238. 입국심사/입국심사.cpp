@@ -1,21 +1,18 @@
-#include <iostream>
+#include <string>
 #include <vector>
 #include <algorithm>
 using namespace std;
 
+bool isPossible(std::vector<int>& _Time, int n, long long mid) {
 
-
-bool isPositive(std::vector<int>& _times, long long _midValue, int _people) {
-
-	long long count = 0;
-
-	for (int t : _times) {
-		count += (long long)_midValue / t;
-		if (count >= _people) return true; // 조기 종료
+	long long total = 0;
+	for (int i : _Time) {
+		total += (long long)(mid / i);
+		if (total >= n) {
+			return true;
+		}
 	}
-
 	return false;
-
 }
 
 
@@ -24,13 +21,12 @@ long long solution(int n, vector<int> times) {
 
 	std::sort(times.begin(), times.end());
 
-	long long left = 1;  // 최소
-	long long right = (long long)times.back() * n;  // 최대
+	long long left = 1;
+	long long right = (long long)times.back() * n;
 
 	while (left <= right) {
 		long long mid = left + (right - left) / 2;
-
-		if (isPositive(times, mid, n) == true) {
+		if (isPossible(times, n, mid) == true) {
 			right = mid - 1;
 		}
 		else {
@@ -40,3 +36,4 @@ long long solution(int n, vector<int> times) {
 
 	return left;
 }
+
