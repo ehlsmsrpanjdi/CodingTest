@@ -1,23 +1,32 @@
 #include <string>
+#include <vector>
 #include <algorithm>
+
 using namespace std;
 
 int solution(string name) {
-    int n = name.size();
-    int answer = 0;
+	int answer = 0;
+	int lengthValue = name.size();
+	int j;
 
-    for (char c : name) {
-        answer += min(c - 'A', 'Z' - c + 1);
-    }
+	int moveValue = name.size() - 1;
 
-    int move = n - 1; // 기본: 끝까지 직진
-    for (int i = 0; i < n; i++) {
-        int next = i + 1;
-        while (next < n && name[next] == 'A') next++;
+	for (int i = 0; i < name.size(); ++i) {
 
-        move = min(move, i + n - next + min(i, n - next));
-    }
+		answer += std::min(name[i] - 'A', 'Z' - name[i] + 1);
 
-    answer += move;
-    return answer;
+		j = i + 1;
+
+
+		while (j < name.size() && name[j] == 'A') {
+			++j;
+		}
+
+		int tempValue = std::min(i + i + lengthValue - j, i + (lengthValue - j) * 2);
+
+		moveValue = std::min(moveValue, tempValue);
+	}
+
+
+	return answer + moveValue;
 }
