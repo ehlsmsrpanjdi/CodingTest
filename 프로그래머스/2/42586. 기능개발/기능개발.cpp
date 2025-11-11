@@ -1,42 +1,33 @@
-#include <unordered_map>
-#include <iostream>
-#include <vector>
-#include <stack>
 #include <string>
 #include <vector>
+#include <map>
+#include <set>
+#include <algorithm>
+#include <unordered_map>
 #include <cmath>
 
 using namespace std;
 
-
 vector<int> solution(vector<int> progresses, vector<int> speeds) {
 	vector<int> answer;
+	int remain;
+	int currentDay = 0;
+	int currentCount = -1;
+	for (int i = 0; i < progresses.size(); ++i) {
 
-	vector<float> daysToComplete;
 
-	int VectorSize = progresses.size();
-	for (int i = 0; i < VectorSize; ++i) {
-		float days = ceil((100 - progresses[i]) / (float)speeds[i]);
-		daysToComplete.push_back(days);
-	}
+		remain = std::ceil(((100 - progresses[i]) / float(speeds[i])));
 
-	float MinValue = daysToComplete.front();
-	int Count = 1;
-
-	for (int i = 1; i < VectorSize; ++i) {
-		if (MinValue < daysToComplete[i]) {
-			answer.push_back(Count);
-			MinValue = daysToComplete[i];
-			Count = 1;
+		if (currentDay < remain) {
+			answer.push_back(1);
+			++currentCount;
+			currentDay = remain;
 		}
 		else {
-			Count++;
+			++answer[currentCount];
 		}
 	}
-	if (Count > 0) {
-		answer.push_back(Count);
-	}
+
 
 	return answer;
 }
-
