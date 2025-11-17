@@ -1,29 +1,41 @@
-std::vector<std::vector<int>> answer;
-std::vector<bool> isVisited;
+using namespace std;
 
-void BackTracking(std::vector<int>& current, const std::vector<int>& origin) {
-	if (current.size() == origin.size()) {
-		answer.push_back(current);
+void Tracking(vector<int>& nums, std::vector<int>& vec, std::vector<bool>& visited, vector<vector<int>>& answer) {
+
+	if (vec.size() == nums.size()) {
+		answer.push_back(vec);
+		return;
 	}
 
-	for (int i = 0; i < origin.size(); ++i) {
-		if (isVisited[i] == false) {
-		current.push_back(origin[i]);
-		isVisited[i] = true;
-		BackTracking(current, origin);
-		isVisited[i] = false;
-		current.pop_back();
+	for (int i = 0; i < nums.size(); ++i) {
+		if (visited[i] == false) {
+			visited[i] = true;
+			vec.push_back(nums[i]);
+			Tracking(nums, vec, visited, answer);
+			vec.pop_back();
+			visited[i] = false;
 		}
 	}
+
+
 }
 
 class Solution {
 public:
 	vector<vector<int>> permute(vector<int>& nums) {
-		std::vector<int> vec;
-		isVisited.resize(nums.size(), false);
-		answer.clear();
-		BackTracking(vec, nums);
-		return answer;
+
+		vector<vector<int>> answer;
+
+		std::vector<bool> isvisited = std::vector<bool>(nums.size(), false);
+		for (int i = 0; i < nums.size(); ++i) {
+			std::vector<int> vec;
+			vec.push_back(nums[i]);
+			isvisited[i] = true;
+			Tracking(nums, vec, isvisited, answer);
+			vec.pop_back();
+			isvisited[i] = false;
+		}
+return answer;
 	}
 };
+
