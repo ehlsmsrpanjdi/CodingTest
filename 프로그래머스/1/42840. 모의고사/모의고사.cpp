@@ -1,67 +1,73 @@
 #include <string>
 #include <vector>
 #include <map>
-using namespace std;vector<int> solution(vector<int> answers) {
+#include <set>
+#include <algorithm>
+#include <unordered_map>
+#include <cmath>
+#include <queue>
+#include <stack>
+#include <iostream>
+
+using namespace std;
+
+vector<int> solution(vector<int> answers) {
 	vector<int> answer;
-	vector<int> count(4, 0);
 
-	std::vector<int> student1 = { 1, 2, 3, 4, 5 };
-	std::vector<int> student2 = { 2, 1, 2, 3, 2, 4, 2, 5 };
-	std::vector<int> student3 = { 3, 3, 1, 1, 2, 2, 4, 4, 5, 5 };
+	std::vector<int> one = { 1, 2, 3, 4, 5 };
 
-	int n = answers.size();
+	std::vector<int> two = { 2, 1, 2, 3, 2, 4, 2, 5 };
+
+	std::vector<int> three = { 3, 3, 1, 1, 2, 2, 4, 4, 5, 5 };
+
+	std::vector<int> answerVec = { 0,0,0 };
 
 
-	int n1 = student1.size();
-	int n2 = student2.size();
-	int n3 = student3.size();
-
-	for (int i = 0; i < n; i++) {
-		int value = answers[i];
-		if (student1[i % n1] == value) {
-			++count[1];
+	for (int i = 0; i < answers.size(); ++i) {
+		if (answers[i] == one[i % one.size()]) {
+			++answerVec[0];
 		}
-
-		if (student2[i % n2] == value) {
-			++count[2];
+		if (answers[i] == two[i % two.size()]) {
+			++answerVec[1];
 		}
-
-		if (student3[i % n3] == value) {
-			++count[3];
+		if (answers[i] == three[i % three.size()]) {
+			++answerVec[2];
 		}
 	}
 
-	if (count[1] > count[2] && count[1] > count[3]) {
-		answer.push_back(1);
+	if (answerVec[0] > answerVec[1]) {
+		if (answerVec[0] > answerVec[2]) {
+			return{ 1 };
+		}
+		else if (answerVec[0] == answerVec[2]) {
+			return{ 1,3 };
+		}
+		else {
+			return{ 3 };
+		}
 	}
-	else if (count[2] > count[1] && count[2] > count[3]) {
-		answer.push_back(2);
-	}
-	else if (count[3] > count[1] && count[3] > count[2]) {
-		answer.push_back(3);
-	}
-	else if (count[1] == count[2] && count[1] > count[3]) {
-		answer.push_back(1);
-		answer.push_back(2);
-	}
-	else if (count[1] == count[3] && count[1] > count[2]) {
-		answer.push_back(1);
-		answer.push_back(3);
-	}
-	else if (count[2] == count[3] && count[2] > count[1]) {
-		answer.push_back(2);
-		answer.push_back(3);
-	}
-	else if(count[1] == 0) {
 
+	else if (answerVec[0] < answerVec[1]) {
+		if (answerVec[1] > answerVec[2]) {
+			return{ 2 };
+		}
+		else if (answerVec[1] == answerVec[2]) {
+			return{ 2 ,3 };
+		}
+		else {
+			return{ 3 };
+		}
 	}
+
 	else {
-		answer.push_back(1);
-		answer.push_back(2);
-		answer.push_back(3);
+		if (answerVec[0] > answerVec[2]) {
+			return { 1,2 };
+		}
+		else if (answerVec[0] == answerVec[2]) {
+			return { 1,2,3 };
+		}
+		else {
+			return { 3 };
+		}
 	}
-
-
-
-    return answer;
 }
