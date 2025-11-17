@@ -1,51 +1,52 @@
 #include <string>
 #include <vector>
-#include <iostream>
+#include <map>
+#include <set>
+#include <algorithm>
 #include <unordered_map>
-#include <unordered_set>
+#include <cmath>
 #include <queue>
-#include <cstring>
+#include <stack>
+#include <iostream>
+
 using namespace std;
 
-int compareString(const string& first, const string& second) {
-	int Count = 0;
-	for (int i = 0; i < first.size(); ++i) {
-		if (first[i] == second[i]) {
-			++Count;
-		}
-	}
-	return Count;
-}
 
 int solution(string begin, string target, vector<string> words) {
-	std::unordered_map<string, bool> isVisited;
-	int answer = 0;
+	std::vector<bool> isVisited = vector<bool>(words.size(), false);
 
 	std::queue<std::pair<string, int>> qu;
 
-	qu.push(std::make_pair(begin, 0));
+
+	qu.push(make_pair(begin, 0));
 
 	while (!qu.empty()) {
-		std::pair<string, int> pair = qu.front();
-
-
-
+		std::pair<string, int> pa = qu.front();
 		qu.pop();
 
-		for (const string& _str : words) {
-			if (isVisited[_str] == false) {
-				int Count =compareString(pair.first, _str);
-				if (Count == pair.first.size() - 1) {
-					if (target == _str) {
-						return pair.second + 1;
+		for (int i = 0; i < words.size(); ++i) {
+			if (isVisited[i] == true) {
+				continue;
+			}
+			const string& str = words[i];  //단어받아오고
+			int count = 0;					//몇개틀렸는지확인용
+			for (int j = 0; j < str.size(); ++j) {  // element랑 몇 개 틀린지 확인해보기
+				if (pa.first[j] != str[j]) {
+					++count;
+					if (count > 1) {  //두 개 이상이면 애초에 안됨
+						break;
 					}
-					qu.push(std::make_pair(_str, pair.second + 1));
-					isVisited[_str] = true;
 				}
 			}
+			if (count == 1) {   //한 개면 집어느
+				if (str == target) {
+					return pa.second + 1;
+				}
+				qu.push(make_pair(str, pa.second + 1));
+				isVisited[i] = true;
+			}
 		}
-
 	}
 
-	return answer;
+	return 0;
 }
