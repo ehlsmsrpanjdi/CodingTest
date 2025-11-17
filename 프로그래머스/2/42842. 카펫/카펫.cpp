@@ -1,29 +1,43 @@
 #include <string>
-#include <queue>
 #include <vector>
+#include <map>
+#include <set>
 #include <algorithm>
-#include <iterator>
-#include <unordered_set>
+#include <unordered_map>
+#include <cmath>
+#include <queue>
+#include <stack>
 #include <iostream>
+
 
 using namespace std;
 
 vector<int> solution(int brown, int yellow) {
-    vector<int> answer;
+	vector<int> answer;
 
-    //std::vector<std::pair<int, int>> vec;
+	int value = sqrt(yellow);
 
-    for (int i = 1; i * i<= yellow; ++i) {
-        if (yellow % i == 0) {
-            int carpetCount = yellow / i * 2 + i * 2 + 4;
-            if (carpetCount == brown) {
-                return { yellow / i + 2, i + 2 };
-            }
+	if (yellow == 1) {
+		return { 3,3 };
+	}
 
-            //vec.push_back(std::make_pair(yellow / i, i));
-        }
-    }
+	else if (yellow == 2) {
+		return { 4,3 };
+	}
+
+	for (int i = 1; i <= value; ++i) {
+		if (yellow % i == 0) {
+			int blockCount = i * 2 + yellow / i * 2 + 4;
+
+			if (brown == blockCount) {
+				answer.push_back(yellow / i + 2);
+				answer.push_back(i + 2);
+			}
+
+		}
+	}
 
 
-    return answer;
+
+	return answer;
 }
