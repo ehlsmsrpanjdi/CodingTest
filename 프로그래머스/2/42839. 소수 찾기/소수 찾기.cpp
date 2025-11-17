@@ -1,53 +1,67 @@
 #include <string>
-#include <queue>
 #include <vector>
+#include <map>
+#include <set>
 #include <algorithm>
-#include <iterator>
-#include <unordered_set>
+#include <unordered_map>
+#include <cmath>
+#include <queue>
+#include <stack>
 #include <iostream>
+
 
 using namespace std;
 
+bool IsPrime(int _num) {
 
-std::vector<bool> isUsed;
-std::unordered_set<int> unSet;
-
-bool IsPrime(int _Value) {
-	if (0 == _Value || 1 == _Value) {
+	if (_num == 1 || _num == 0) {
 		return false;
 	}
 
-	for (int i = 2; i * i <= _Value; ++i) {
-		if (_Value % i == 0) {
+	if (_num == 2) {
+		return true;
+	}
+
+	int value = std::sqrt(_num);
+
+	for (int i = 2; i <= value; ++i) {
+		if (_num % i == 0) {
 			return false;
 		}
 	}
+
 	return true;
 }
 
-void BackTracking(string current, const string& _str) {
+void dfs(int& answer, set<int>& numSet, string current, string remain) {
 
-	if (0 != current.size()) {
-		int Value = std::stoi(current);
-		if (true == IsPrime(Value)) {
-			unSet.insert(Value);
+	int value = 1;
+	if (current.size() != 0) {
+		value = stoi(current);
+	}
+
+	if (numSet.find(value) == numSet.end()) {
+		numSet.insert(value);
+		if (IsPrime(value) == true) {
+			++answer;
 		}
 	}
 
 
-	for (int i = 0; i < isUsed.size(); ++i) {
-		if (false == isUsed[i]) {
-			isUsed[i] = true;
-			BackTracking(current + _str[i], _str);
-			isUsed[i] = false;
-		}
+	for (int i = 0; i < remain.size(); ++i) {
+		dfs(answer, numSet, current + remain[i], remain.substr(0, i) + remain.substr(i + 1));
 	}
+
 }
+
 
 int solution(string numbers) {
 	int answer = 0;
-	isUsed.resize(numbers.size(), false);
-	BackTracking("", numbers);
 
-	return unSet.size();
+	set<int> numSet;
+
+	dfs(answer, numSet, "", numbers);
+
+
+	return answer;
 }
