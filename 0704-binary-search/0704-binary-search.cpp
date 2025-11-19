@@ -1,13 +1,34 @@
 class Solution {
 public:
-    int search(vector<int>& nums, int target) {
-       std::vector<int>::iterator iter = std::find(nums.begin(), nums.end(), target);
+	int search(vector<int>& nums, int target) {
 
-       if (iter == nums.end()) {
-           return -1;
-       }
-       int distance = std::distance(nums.begin(), iter);
+		int left = 0;
+		int right = nums.size();
 
-        return distance;
-    }
+		int mid = (left + right) / 2;
+
+		bool isFind = false;
+
+		while (left <= right) {
+
+			if (mid >= nums.size()) {
+				break;
+			}
+
+			if (target == nums[mid]) {
+				return mid;
+			}
+
+			else if (nums[mid] < target) {
+				left = mid + 1;
+			}
+
+			else {
+				right = mid - 1;
+			}
+
+			mid = (left + right) / 2;
+		}
+		return -1;
+	}
 };
