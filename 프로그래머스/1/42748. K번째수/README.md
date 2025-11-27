@@ -1,10 +1,10 @@
 # [level 1] K번째수 - 42748 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42748) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42748?gad_source=1&gad_campaignid=22199869887&gbraid=0AAAAAC_c4nA_d0sdwmWerETfEbceiVhFY&gclid=Cj0KCQiAiqDJBhCXARIsABk2kSn-b58FOL1fX_lioYv7-JM3ss5U9YI-r8_4SMEDYCHi8EvaydgWgbYaAvkBEALw_wcB) 
 
 ### 성능 요약
 
-메모리: 4.25 MB, 시간: 0.01 ms
+메모리: 4.13 MB, 시간: 0.01 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 11월 18일 21:56:16
+2025년 11월 28일 03:58:04
 
 ### 문제 설명
 
