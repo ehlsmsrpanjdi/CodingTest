@@ -1,32 +1,44 @@
-#include <vector>
 #include <iostream>
-#include <map>
 #include <string>
+#include <vector>
+#include <unordered_map>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
+
 
 string solution(string number, int k) {
 	string answer = "";
 
 
+	int max = 0;
+
 	int index = 0;
-	while (k > 0 && index + 1 < number.size()) {
-		if (number[index] < number[index + 1]) {
-			number.erase(index, 1);
-			--k;
-			index = 0;
-			continue;
+
+	for (char c : number) {
+		if (answer.empty() == true) {
+			answer.push_back(c);
+		}
+		else if (answer.back() < c) {
+			while (!answer.empty() && answer.back() < c && k > 0) {
+				answer.pop_back();
+				--k;
+			}
+			answer.push_back(c);
 		}
 		else {
-			++index;
+			answer.push_back(c);
 		}
 	}
 
-	while (k > 0) {
-		number.erase(number.end() - 1);
-        --k;
+	while(k > 0){
+		answer.pop_back();
+		--k;
 	}
 
-	return number;
+
+
+	return answer;
 }
+
