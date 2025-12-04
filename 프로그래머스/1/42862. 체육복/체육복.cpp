@@ -1,45 +1,54 @@
-#include <vector>
 #include <iostream>
-#include <unordered_set>
-#include <algorithm>
+#include <string>
+#include <vector>
+#include <unordered_map>
 
 using namespace std;
 
 int solution(int n, vector<int> lost, vector<int> reserve) {
 	int answer = 0;
 
-	std::unordered_set<int> unSet;
+	int lostCount = n;
 
-	answer = n - lost.size();
-
-    	std::sort(lost.begin(), lost.end());
-    
-	for (int i : reserve) {
-		unSet.insert(i);
-	}
-
-	for (std::vector<int>::iterator iter = lost.begin(); iter != lost.end();) {
-		if (unSet.find(*iter) != unSet.end()) {
-			unSet.erase(*iter);
-			iter = lost.erase(iter);
-			++answer;
-		}
-		else {
-			++iter;
-		}
-	}
-
+	unordered_map<int, bool> hasReserve;
+	unordered_map<int, bool> lostReverse;
 
 	for (int i : lost) {
-		if (unSet.find(i - 1) != unSet.end()) {
-			unSet.erase(i - 1);
-			++answer;
+		lostReverse[i] = true;
+	}
+
+	for (int i : reserve) {
+		hasReserve[i] = true;
+	}
+
+	for (int i = 1; i <= n; ++i) {
+
+		if (lostReverse[i] == true) {
+
+
+			if (hasReserve[i] == true) {
+				hasReserve[i] = false;
+				--lostCount;
+			}
+
+
+			else if (hasReserve[i - 1] == true) {
+				hasReserve[i - 1] = false;
+				--lostCount;
+			}
+
+			else if (hasReserve[i + 1] == true) {
+				if (lostReverse[i + 1] != true) {
+					hasReserve[i + 1] = false;
+					--lostCount;
+				}
+			}
 		}
-		else if (unSet.find(i + 1) != unSet.end()) {
-			unSet.erase(i + 1);
-			++answer;
+		else {
+			--lostCount;
 		}
 	}
 
-	return answer;
+
+	return n - lostCount;
 }
