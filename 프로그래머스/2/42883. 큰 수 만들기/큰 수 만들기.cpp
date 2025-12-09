@@ -7,38 +7,37 @@
 
 using namespace std;
 
-
 string solution(string number, int k) {
 	string answer = "";
 
+	int i = 0;
 
-	int max = 0;
+	int maxSize = number.size();
 
-	int index = 0;
-
-	for (char c : number) {
+	while (k > 0 && i < maxSize) {
 		if (answer.empty() == true) {
-			answer.push_back(c);
+			answer += number[i++];
 		}
-		else if (answer.back() < c) {
-			while (!answer.empty() && answer.back() < c && k > 0) {
+		else {
+			while (answer.empty() != true && k > 0 && answer.back() < number[i]) {
 				answer.pop_back();
 				--k;
 			}
-			answer.push_back(c);
-		}
-		else {
-			answer.push_back(c);
+			answer += number[i++];
 		}
 	}
 
-	while(k > 0){
-		answer.pop_back();
-		--k;
+	if (i != maxSize) {
+		answer.append(number.begin() + i, number.end() - k);
 	}
 
+	if (k > 0) {
+		while (k > 0) {
+			answer.pop_back();
+			--k;
+		}
+	}
 
 
 	return answer;
 }
-
