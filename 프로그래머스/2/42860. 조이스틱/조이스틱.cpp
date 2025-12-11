@@ -1,32 +1,119 @@
+#include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
+
+int checkIndex(int index, int maxSize) {
+	if (index >= maxSize) {
+		return 0;
+	}
+
+	if (index < 0) {
+		return maxSize - 1;
+	}
+
+	return index;
+}
+
 int solution(string name) {
 	int answer = 0;
-	int lengthValue = name.size();
-	int j;
 
-	int moveValue = name.size() - 1;
+	int maxSize = name.size();
 
-	for (int i = 0; i < name.size(); ++i) {
+	int notACount = 0;
 
-		answer += std::min(name[i] - 'A', 'Z' - name[i] + 1);
+	int minCalculate = 0;
 
-		j = i + 1;
+	for (int i = 0; i < maxSize; ++i) {
+		if (name[i] != 'A') {
+			++notACount;
 
+			minCalculate += min('Z' + 1 - name[i], name[i] - 'A');
+		}
+	}
 
-		while (j < name.size() && name[j] == 'A') {
-			++j;
+	answer = maxSize;
+
+	int cachedCount = 0;
+	string cachedString;
+
+	for (int i = 0; i < maxSize; ++i) {
+		int index = 0;
+		int moveCount = 0;
+		cachedCount = notACount;
+		cachedString = name;
+		while (true) {
+			if (moveCount < i) {
+				if (cachedString[index] != 'A') {
+					--cachedCount;
+					cachedString[index] = 'A';
+				}
+				++index;
+				index = checkIndex(index, maxSize);
+			}
+			else {
+				if (cachedString[index] != 'A') {
+					--cachedCount;
+					cachedString[index] = 'A';
+				}
+				--index;
+				index = checkIndex(index, maxSize);
+			}
+
+			if (cachedCount <= 0) {
+				break;
+			}
+			++moveCount;
 		}
 
-		int tempValue = std::min(i + i + lengthValue - j, i + (lengthValue - j) * 2);
+		if (moveCount < answer) {
+			answer = moveCount;
+		}
+	}
 
-		moveValue = std::min(moveValue, tempValue);
+	cachedString = name;
+
+	for (int i = 0; i < maxSize; ++i) {
+		int index = 0;
+		int moveCount = 0;
+		cachedCount = notACount;
+		cachedString = name;
+		while (true) {
+			if (moveCount < i) {
+				if (cachedString[index] != 'A') {
+					cachedString[index] = 'A';
+					--cachedCount;
+				}
+				--index;
+				index = checkIndex(index, maxSize);
+			}
+			else {
+				if (cachedString[index] != 'A') {
+					cachedString[index] = 'A';
+					--cachedCount;
+				}
+				++index;
+				index = checkIndex(index, maxSize);
+			}
+
+			if (cachedCount <= 0) {
+				break;
+			}
+			++moveCount;
+		}
+
+		if (moveCount < answer) {
+			answer = moveCount;
+		}
 	}
 
 
-	return answer + moveValue;
+
+
+	return answer + minCalculate;
 }
