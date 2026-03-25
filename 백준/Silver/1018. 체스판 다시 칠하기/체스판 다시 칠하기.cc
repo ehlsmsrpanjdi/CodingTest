@@ -9,53 +9,55 @@ using namespace std;
 
 
 int main() {
+
 	int N, M;
 
 
 	cin >> N >> M;
 
 	std::vector<std::vector<char>> vec(N, std::vector<char>(M));
+	char a = 0;
 
-	int counter = 100000000;
-
-	int counter1 = 0;
-	int counter2 = 0;
-	for (int i = 0; i < N; ++i) {
+	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; ++j) {
-			std::cin >> vec[i][j];
+			cin >> a;
+			vec[i][j] = a;
 		}
 	}
-	for (int row = 0; row <= N - 8; ++row) {
-		for (int col = 0; col <= M - 8; ++col) {
-			counter1 = 0;
-			counter2 = 0;
-			for (int i = row; i < 8 + row; ++i) {
-				for (int j = col; j < 8 + col; ++j) {
-					if (vec[i][j] == 'B') {
-						if ((i + j) % 2) {
-							++counter1;
-						}
-						else {
-							++counter2;
-						}
+
+	int mincounter = 64;
+
+
+	for (int i = 0; i <= N - 8; ++i) {
+		for (int j = 0; j <= M - 8; ++j) {
+			int counter = 0;
+
+			int divide = 0;
+			if ((i + j) % 2 != 0) {
+				divide = 1;
+			}
+
+			for (int k = i; k < i + 8; ++k) {
+				for (int l = j; l < j + 8; ++l) {
+					if ((k + l) % 2 == divide && vec[k][l] != 'B') {
+						++counter;
 					}
 
-					else if (vec[i][j] == 'W') {
-						if ((i + j) % 2) {
-							++counter2;
-						}
-						else {
-							++counter1;
-						}
+					if ((k + l) % 2 != divide && vec[k][l] != 'W') {
+						++counter;
 					}
 				}
 			}
-			if (counter1 < counter2) counter2 = counter1;
-			if (counter2 < counter) counter = counter2;
+
+			if (counter > 32) {
+				counter = 64 - counter;
+			}
+
+			if (counter < mincounter) {
+				mincounter = counter;
+			}
 		}
 	}
 
-	std::cout << counter;
-
-	return 0;
+	std::cout << mincounter;
 }
